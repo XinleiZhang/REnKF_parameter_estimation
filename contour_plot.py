@@ -1,25 +1,39 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
 """
 plot the contour of the posterior
 """
 
+# standard library imports
+import os
+import sys
+
+# third party imports
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpa
-
 import matplotlib.lines as mlines
+
+# local imports
+from utilities import read_input_data
+
+dir = './figures'
+if os.path.exists(dir):
+    None
+else:
+    os.mkdir(dir)
 
 case_list = ['prior2&2', 'prior0&0', 'prior-2&-2']
 
-# to determine: filter and penalty
-filter_name = 'EnKF' # EnKF or REnKF
-penalty_type = 0 # equality: 0 inequality: 1 multiple: 2
+input_file = sys.argv[1]
+inputs = read_input_data(input_file)
+filter_name = inputs['filter_name']   # filter name
+penalty_type = int(inputs['penalty_type']) # constraint type
 
-# hyper parameters in the inflation function
-lamb = 0.1
-S = 5
-d = 2
+# hyper parameter in inflation function
+lamb = float(inputs['lamb'])
+S = float(inputs['S'])
+d = float(inputs['d'])
 
 params = {
         'axes.labelsize': 20,
@@ -99,13 +113,13 @@ for case_name in case_list:
 
 
 if filter_name=='EnKF':
-    penalty_type == '0'
+    penalty_type == 0
 elif penalty_type == 0:
     plt.plot(theta1, - theta1 + 2, 'k-')
 elif penalty_type == 1:
     y1 = theta1
     y2 = - theta1+1
-    y3 = -theta1+ 6
+    y3 = -theta1+ 10
     plt.plot(y1, y2, 'k-')
     ax.fill_between(y1, y2, y3, facecolor='blue',alpha=0.3)
 elif penalty_type == 2:
@@ -134,5 +148,5 @@ plt.legend(handles=[truth, local, prior, posterior], loc='upper center',
           bbox_to_anchor=(0.48, 1.15), ncol=4)
 #plt.tight_layout()
 
-plt.savefig('./figures/'+ filter_name+ '_'+ str(penalty_type) + '_la'
+plt.savefig('./figures/'+ filter_name+ '_penalty'+ str(penalty_type) + '_la'
             + str(lamb) + '_S' + str(S) + '_d' + str(d) + '_contour.pdf')

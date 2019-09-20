@@ -1,25 +1,33 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
 """
 post-process the analyzed data:
     plot evolution of parameter, dx and cost function value with respect 
     to iterations
 """
 
-import numpy as np
+# standard library imports
 import os
+import sys
+
+# third party imports
+import numpy as np
 import matplotlib.pyplot as plt
 
-# to determine: filter and penalty
-filter_name = 'EnKF'
-penalty_type = 0
+# local imports
+from utilities import read_input_data
 
 # to determine the iteration number
 N = 50
 
-
-lamb = 0.1
-S = 5
-d = 2
+# read setups from input file
+input_file = sys.argv[1]
+inputs = read_input_data(input_file)
+penalty_type = int(inputs['penalty_type']) # constraint type
+filter_name = inputs['filter_name']   # filter name
+# hyper parameter in inflation function
+lamb = float(inputs['lamb'])
+S = float(inputs['S'])
+d = float(inputs['d'])
 
 fig1 = plt.figure(1, figsize=(12,6))
 dir = './figures'

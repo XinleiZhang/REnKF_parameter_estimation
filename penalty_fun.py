@@ -1,9 +1,5 @@
-
-# -*- coding: utf-8 -*-
 """
-Created on Sep. 07 2018
-simple forword model
-@author: zxl
+constraint function
 """
 
 import numpy as np
