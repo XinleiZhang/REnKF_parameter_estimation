@@ -7,7 +7,7 @@ filter_name EnKF    # EnKF or REnKF
 plot_flag 1         # plot evolution of parameter or not
 
 # hyper parameter in inflation function
-lamb 0.1            
+lamb 10.0            
 S    5
 d    2
 

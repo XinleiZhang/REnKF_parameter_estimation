@@ -22,11 +22,12 @@ def REnKF(X, HX, R, Nen):
     pht = coeff * np.dot(xp, hxp)
     hpht = coeff * hxp.dot(hxp.T)
     inv = 1. / (hpht + R)
-    kalman_gain_matrix = pht * inv
-    hxx = coeff * np.dot(hxp, xp.T)
+    kalman_gain_matrix = np.reshape(pht * inv, (2, 1))
+    hxx = np.reshape(coeff * np.dot(hxp, xp.T), (1, 2))
     p = coeff * np.dot(xp, xp.T)
+    # import pdb; pdb.set_trace()
     k2_gain_matrix = kalman_gain_matrix.dot(hxx) - p
-    return kalman_gain_matrix.reshape(2, 1), k2_gain_matrix
+    return kalman_gain_matrix, k2_gain_matrix
 
 # state function to propagate ensemble realizations
 def state_model(theta, Nen):
