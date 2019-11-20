@@ -6,7 +6,7 @@ import numpy as np
 # EnKF
 def EnKF(X, HX, R, Nen):
     coeff = 1.0 / (Nen - 1.0)
-    xp = X - np.mean(X)
+    xp = X - np.mean(X, 1, keepdims=1)
     hxp = HX - np.mean(HX)
     pht = coeff * np.dot(xp, hxp)
     hpht = coeff * hxp.dot(hxp.T)
@@ -17,7 +17,7 @@ def EnKF(X, HX, R, Nen):
 # REnKF
 def REnKF(X, HX, R, Nen):
     coeff = 1.0 / (Nen - 1.0)
-    xp = X - np.mean(X)
+    xp = X - np.mean(X, 1, keepdims=1)
     hxp = HX - np.mean(HX)
     pht = coeff * np.dot(xp, hxp)
     hpht = coeff * hxp.dot(hxp.T)
@@ -25,7 +25,6 @@ def REnKF(X, HX, R, Nen):
     kalman_gain_matrix = np.reshape(pht * inv, (2, 1))
     hxx = np.reshape(coeff * np.dot(hxp, xp.T), (1, 2))
     p = coeff * np.dot(xp, xp.T)
-    # import pdb; pdb.set_trace()
     k2_gain_matrix = kalman_gain_matrix.dot(hxx) - p
     return kalman_gain_matrix, k2_gain_matrix
 
