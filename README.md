@@ -1,4 +1,4 @@
-Regulerized EnKF: application for parameter estimation
+Regularized EnKF: application for parameter estimation
 ======================================================
 
 A test case to estimate model parameter with Regularized EnKF
